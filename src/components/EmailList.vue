@@ -25,9 +25,10 @@
 
     watch: {
       isSelected(newValue) {
-        console.log(newValue)
         if(!newValue) {
           this.checked = []
+        } else {
+          this.checked = this.checkedEmails
         }
       }
     },
