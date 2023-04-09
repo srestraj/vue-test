@@ -67,8 +67,8 @@
           })
           if (itemInCheckedEmails) {
             const duplicateItemIndex = this.checkedEmails.indexOf(itemInCheckedEmails)
-            const newArray = this.checkedEmails.splice(duplicateItemIndex, 1)
-            this.checkedEmails = newArray
+            this.checkedEmails.splice(duplicateItemIndex, 1)
+            this.checkedEmails = this.checkedEmails
             return
           }
         } else {
