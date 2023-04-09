@@ -18,7 +18,8 @@
         filteredEmails: [],
         selectedEmail: {},
         isEmailPreviewOpen: false,
-        checkedEmails: []
+        checkedEmails: [],
+        isAllSelected: false
       }
     },
 
@@ -43,6 +44,12 @@
     watch: {
       $route(newRoute) {
         newRoute.name == 'inbox' ? this.filteredEmails = this.inbox : this.filteredEmails = this.archivedEmails
+      },
+      isAllSelected(newVal) {
+        if (!newVal) {
+          this.checkedEmails = []
+          this.isAllSelected = false
+        }
       }
     },
 
@@ -66,6 +73,18 @@
           }
         } else {
           this.checkedEmails.push(value)
+        }
+      },
+
+      selectAllEmails(event) {
+        if (event.target.checked) {
+          this.filteredEmails.map((email) => {
+            this.checkedEmails.push(email.id)
+            this.isAllSelected = true
+          })
+        } else {
+          this.checkedEmails = []
+          this.isAllSelected = false
         }
       }
     },
@@ -115,6 +134,9 @@
       :filteredEmails="filteredEmails"
       @sidebarToggleClicked="openEmail"
       @checkedEmailsUpdated="updateSelectedEmails"
+      @allEmailsSelected="selectAllEmails"
+      :isAllSelected="isAllSelected"
+      :checkedEmails="checkedEmails"
     />
     <div class="overlay" v-if="isEmailPreviewOpen" @click="this.isEmailPreviewOpen = !this.isEmailPreviewOpen"></div>
     <EmailPreview

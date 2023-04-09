@@ -9,7 +9,19 @@
 
     props: {
       filteredEmails: Array,
-      selectedEmails: Array
+      selectedEmails: Array,
+      isAllSelected: Boolean,
+      checkedEmails: Array
+    },
+
+    data() {
+      return {
+        allChecked: false
+      }
+    },
+
+    mounted() {
+      this.isAllSelected ? this.allChecked = true : this.allChecked = false
     },
 
     methods: {
@@ -36,7 +48,7 @@
     </h3>
 
     <div class="main__list">
-      <input type="checkbox" class="checkbox">
+      <input type="checkbox" class="checkbox" @change="$event => $emit('allEmailsSelected', $event)" v-model="allChecked">
       <button class="btn">
         Mark as read (r)
       </button>
@@ -56,6 +68,8 @@
         :id="email.id"
         @sidebartoggled="toggleSidebar(email)"
         @checkedEmailsUpdated="updateCheckedEmails"
+        :isSelected="isAllSelected ? true : false"
+        :checkedEmails="checkedEmails"
       />
     </div>
   </div>
